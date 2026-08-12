@@ -45,12 +45,14 @@ jobs:
       - name: Generate keystore + build signed release APK
         working-directory: android
         env:
-          KEYSTORE_FILE: android.keystore
+          # AGP resolves storeFile relative to the :app module dir (android/app/),
+          # so generate the keystore there and point KEYSTORE_FILE to it absolutely.
+          KEYSTORE_FILE: ${{ github.workspace }}/android/app/android.keystore
           KEYSTORE_PASSWORD: android
           KEYSTORE_ALIAS: naamtaan
           KEY_PASSWORD: android
         run: |
-          keytool -genkeypair -v -keystore android.keystore -storetype PKCS12 \
+          keytool -genkeypair -v -keystore app/android.keystore -storetype PKCS12 \
             -alias naamtaan -keyalg RSA -keysize 2048 -validity 10000 \
             -storepass android -keypass android \
             -dname "CN=naamtaan1008, OU=naamtaan1008, O=naamtaan1008, L=Huizhou, ST=Guangdong, C=CN"

@@ -17,7 +17,7 @@ class ShowDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_detail)
 
-        val show = IntentExtra.from(intent)
+        val show = readShow(intent)
         findViewById<ImageButton>(R.id.backBtn).setOnClickListener { finish() }
         findViewById<TextView>(R.id.title).text = show.title
         findViewById<TextView>(R.id.showTitle).text = show.title
@@ -46,18 +46,14 @@ class ShowDetailActivity : AppCompatActivity() {
         fun start(context: Context, show: Show) {
             context.startActivity(
                 Intent(context, ShowDetailActivity::class.java)
-                    .putExtra(EXTRA, show)
+                    .putExtra(EXTRA, show as java.io.Serializable)
             )
         }
     }
 
-    private object IntentExtra {
-        fun from(intent: Intent): Show =
-            if (android.os.Build.VERSION.SDK_INT >= 33) {
-                intent.getParcelableExtra(EXTRA, Show::class.java) ?: Show()
-            } else {
-                @Suppress("DEPRECATION")
-                intent.getParcelableExtra(EXTRA)
-            } ?: Show()
+    @Suppress("DEPRECATION")
+    private fun readShow(intent: Intent): Show {
+        val ser = intent.getSerializableExtra(EXTRA)
+        return (ser as? Show) ?: Show()
     }
 }

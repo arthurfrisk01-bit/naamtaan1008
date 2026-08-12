@@ -21,7 +21,7 @@ class SceneDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_scene_detail)
 
         val type = intent.getStringExtra(EXTRA_TYPE) ?: "bands"
-        val item = IntentExtra.from(intent) ?: SceneItem()
+        val item = readSceneItem(intent)
         val titleLbl = findViewById<TextView>(R.id.title)
 
         findViewById<ImageButton>(R.id.backBtn).setOnClickListener { finish() }
@@ -155,18 +155,14 @@ class SceneDetailActivity : AppCompatActivity() {
             context.startActivity(
                 Intent(context, SceneDetailActivity::class.java)
                     .putExtra(EXTRA_TYPE, type)
-                    .putExtra(EXTRA_ITEM, item)
+                    .putExtra(EXTRA_ITEM, item as java.io.Serializable)
             )
         }
     }
 
-    private object IntentExtra {
-        fun from(intent: Intent): SceneItem? =
-            if (android.os.Build.VERSION.SDK_INT >= 33) {
-                intent.getParcelableExtra(EXTRA_ITEM, SceneItem::class.java)
-            } else {
-                @Suppress("DEPRECATION")
-                intent.getParcelableExtra(EXTRA_ITEM)
-            }
+    @Suppress("DEPRECATION")
+    private fun readSceneItem(intent: Intent): SceneItem {
+        val ser = intent.getSerializableExtra(EXTRA_ITEM)
+        return (ser as? SceneItem) ?: SceneItem()
     }
 }

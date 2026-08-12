@@ -18,15 +18,15 @@ android {
     }
 
     // Optional release signing driven by CI env (KEYSTORE_FILE etc.).
-    // When absent, release builds are unsigned; debug builds use the debug key.
-    signingConfigs {
-        if (System.getenv("KEYSTORE_FILE") != null) {
-            create("release") {
-                storeFile = file(System.getenv("KEYSTORE_FILE"))
-                storePassword = System.getenv("KEYSTORE_PASSWORD") ?: "android"
-                keyAlias = System.getenv("KEYSTORE_ALIAS") ?: "naamtaan"
-                keyPassword = System.getenv("KEY_PASSWORD") ?: "android"
-            }
+    // Only enabled when the keystore file actually exists; otherwise release
+    // is produced unsigned. This keeps assembleRelease from failing validation.
+    val keystoreFile = System.getenv("KEYSTORE_FILE")?.let { file(it) }
+    if (keystoreFile != null && keystoreFile.exists()) {
+        signingConfigs.create("release") {
+            storeFile = keystoreFile
+            storePassword = System.getenv("KEYSTORE_PASSWORD") ?: "android"
+            keyAlias = System.getenv("KEYSTORE_ALIAS") ?: "naamtaan"
+            keyPassword = System.getenv("KEY_PASSWORD") ?: "android"
         }
     }
 
@@ -37,7 +37,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.findByName("release")
+            signingConfigs.findByName("release")?.let { signingConfig = it }
         }
     }
     compileOptions {
