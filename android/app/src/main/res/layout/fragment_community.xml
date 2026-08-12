@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/zakka_cream"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- ============ 未来7天演出（公开，无需登录）============ -->
+        <TextView
+            android:id="@+id/upcomingTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="未来 7 天演出"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/zakka_ink" />
+        <LinearLayout
+            android:id="@+id/upcomingContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp" />
+        <TextView
+            android:id="@+id/upcomingFeedback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="@color/zakka_brown"
+            android:layout_marginBottom="20dp"
+            android:visibility="gone" />
+
+        <!-- ============ 未登录区 ============ -->
+        <LinearLayout
+            android:id="@+id/communityAuthBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/communityTabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/zakka_cream"
+                app:tabIndicatorColor="@color/zakka_clay"
+                app:tabSelectedTextColor="@color/zakka_ink"
+                app:tabTextColor="@color/zakka_brown" />
+
+            <!-- 登录表单 -->
+            <LinearLayout
+                android:id="@+id/loginBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="12dp">
+
+                <EditText
+                    android:id="@+id/loginEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="邮箱"
+                    android:inputType="textEmailAddress"
+                    android:autofillHints="emailAddress" />
+                <EditText
+                    android:id="@+id/loginPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="密码"
+                    android:inputType="textPassword"
+                    android:autofillHints="password"
+                    android:layout_marginTop="8dp" />
+                <Button
+                    android:id="@+id/loginBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="登录" />
+                <TextView
+                    android:id="@+id/loginFeedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textSize="13sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <!-- 注册表单 -->
+            <LinearLayout
+                android:id="@+id/registerBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="12dp"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/regEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="邮箱"
+                    android:inputType="textEmailAddress"
+                    android:autofillHints="emailAddress" />
+                <EditText
+                    android:id="@+id/regNickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="昵称"
+                    android:inputType="text"
+                    android:layout_marginTop="8dp" />
+                <EditText
+                    android:id="@+id/regPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="密码（至少 8 位）"
+                    android:inputType="textPassword"
+                    android:autofillHints="newPassword"
+                    android:layout_marginTop="8dp" />
+                <EditText
+                    android:id="@+id/regPassword2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="确认密码"
+                    android:inputType="textPassword"
+                    android:layout_marginTop="8dp" />
+                <Button
+                    android:id="@+id/regBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="发送验证码" />
+                <TextView
+                    android:id="@+id/regFeedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textSize="13sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <!-- 验证步骤 -->
+            <LinearLayout
+                android:id="@+id/verifyBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="12dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/verifyHint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/zakka_brown" />
+                <EditText
+                    android:id="@+id/verifyCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="6 位验证码"
+                    android:inputType="number"
+                    android:maxLength="6"
+                    android:layout_marginTop="8dp" />
+                <Button
+                    android:id="@+id/verifyBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="验证并激活" />
+                <TextView
+                    android:id="@+id/verifyFeedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textSize="13sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textSize="12sp"
+                android:textColor="@color/zakka_brown"
+                android:text="注册即表示同意《用户协议》与《隐私政策》，精确坐标绝不展示给游客。"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <!-- ============ 已登录区 ============ -->
+        <LinearLayout
+            android:id="@+id/communityProfileBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/profileAvatar"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:gravity="center"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:background="@drawable/bg_city_tag" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="12dp">
+                    <TextView
+                        android:id="@+id/profileName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/zakka_ink" />
+                    <TextView
+                        android:id="@+id/profileEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:textColor="@color/zakka_brown" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/pfNickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="昵称"
+                android:layout_marginTop="16dp" />
+            <EditText
+                android:id="@+id/pfBio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="简介"
+                android:inputType="textMultiLine"
+                android:minLines="2"
+                android:gravity="top"
+                android:layout_marginTop="8dp" />
+            <EditText
+                android:id="@+id/pfCity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="城市（如 惠州）"
+                android:layout_marginTop="8dp" />
+            <EditText
+                android:id="@+id/pfDistrict"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="区县（可选）"
+                android:layout_marginTop="8dp" />
+            <EditText
+                android:id="@+id/pfRoles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="角色（如 吉他手、贝斯手，用顿号分隔）"
+                android:layout_marginTop="8dp" />
+
+            <!-- 位置五档 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/zakka_ink"
+                android:text="位置共享档位" />
+            <RadioGroup
+                android:id="@+id/pfLevelGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp" />
+            <!-- 档位 radio 由代码动态填充 -->
+
+            <CheckBox
+                android:id="@+id/pfRefresh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="允许位置动态刷新（打开 APP / 手动刷新时上报当前位置）"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/profileSaveBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="保存资料" />
+            <Button
+                android:id="@+id/reportLocationBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="上报当前位置" />
+            <TextView
+                android:id="@+id/profileFeedback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="13sp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/logoutBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="退出登录"
+                android:textColor="@color/zakka_clay" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textSize="12sp"
+                android:textColor="@color/zakka_brown"
+                android:text="《用户协议》·《隐私政策》：精确坐标绝不展示给游客，仅按你选择的档位共享。"
+                android:gravity="center" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

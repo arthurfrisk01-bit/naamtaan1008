@@ -1,9 +1,9 @@
 #!/bin/bash
 # build-release.sh — 一键发布安卓客户端
 # 流程: WSL(Windows)编译签名 → ECS 拉取 → HK 生产部署 → 更新下载页 → 验证
-# 用法: bash build-release.sh [版本号]   (默认 2.2.0, 需与 android/app/build.gradle.kts versionName 一致)
+# 用法: bash build-release.sh [版本号]   (默认 2.3.0, 需与 android/app/build.gradle.kts versionName 一致)
 set -e
-VERSION=${1:-2.2.0}
+VERSION=${1:-2.3.0}
 echo "=== [1/4] WSL 编译签名 APK ==="
 ssh -p 2222 teacross@127.0.0.1 'export JAVA_HOME=$HOME/tools/jdk; export PATH=$JAVA_HOME/bin:$HOME/tools/gradle/bin:$PATH; export ANDROID_HOME=$HOME/Android ANDROID_SDK_ROOT=$HOME/Android; cd ~/naamtaan1008-app/android; KEYSTORE_FILE=/home/teacross/naamtaan1008-app/android/app/android.keystore KEYSTORE_PASSWORD=android KEYSTORE_ALIAS=naamtaan KEY_PASSWORD=android gradle assembleRelease --no-daemon --no-configuration-cache 2>&1 | tail -3'
 
