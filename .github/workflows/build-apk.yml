@@ -8,6 +8,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      BUBBLEWRAP_KEYSTORE_PASSWORD: android
+      BUBBLEWRAP_KEY_PASSWORD: android
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,29 +26,35 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Generate debug keystore
+      - name: Pre-configure bubblewrap (skip interactive prompts)
+        run: |
+          mkdir -p ~/.bubblewrap
+          printf '{\n  "jdkPath": "%s",\n  "androidSdkPath": "%s"\n}\n' \
+            "$JAVA_HOME" "${ANDROID_HOME:-/usr/local/lib/android/sdk}" > ~/.bubblewrap/config.json
+          cat ~/.bubblewrap/config.json
+
+      - name: Generate keystore
+        working-directory: twa-project
         run: |
           keytool -genkeypair -v -keystore android.keystore -storetype PKCS12 \
             -alias naamtaan -keyalg RSA -keysize 2048 -validity 10000 \
             -storepass android -keypass android \
             -dname "CN=naamtaan1008, OU=naamtaan1008, O=naamtaan1008, L=Huizhou, ST=Guangdong, C=CN"
 
-      - name: Bubblewrap init
-        run: npx --yes @bubblewrap/cli init --manifest twa-manifest.json
-
       - name: Bubblewrap build
+        working-directory: twa-project
         run: npx --yes @bubblewrap/cli build
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: naamtaan1008-apk
-          path: app-release-signed.apk
+          path: twa-project/app-release-signed.apk
           if-no-files-found: error
 
       - name: Create Release on tag
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          files: app-release-signed.apk
+          files: twa-project/app-release-signed.apk
           name: naamtaan1008 ${{ github.ref_name }}
