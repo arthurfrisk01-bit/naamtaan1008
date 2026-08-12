@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#faf3e0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="平和日常">
+  <meta name="description" content="珠三角独立音乐场景平台 — 演出、场景、文章、招募。平和日常 naamtaan1008">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/icons/icon-192.png">
+  <title>平和日常 naamtaan1008</title>
+  <link rel="stylesheet" href="/css/style.css?v=7">
+</head>
+<body>
+  <div id="app">
+    <header id="appHeader" class="app-header">
+      <button id="backBtn" class="back-btn" aria-label="返回" hidden>‹</button>
+      <h1 id="headerTitle" class="header-title">平和日常</h1>
+      <div class="header-spacer"></div>
+    </header>
+
+    <main id="pageContainer">
+      <section id="page-home" class="page"><div class="page-body" id="homeBody"></div></section>
+      <section id="page-shows" class="page"><div class="page-body" id="showsBody"></div></section>
+      <section id="page-show-detail" class="page"><div class="page-body" id="showDetailBody"></div></section>
+      <section id="page-scene" class="page"><div class="page-body" id="sceneBody"></div></section>
+      <section id="page-scene-detail" class="page"><div class="page-body" id="sceneDetailBody"></div></section>
+      <section id="page-articles" class="page"><div class="page-body" id="articlesBody"></div></section>
+      <section id="page-article-detail" class="page"><div class="page-body" id="articleDetailBody"></div></section>
+      <section id="page-more" class="page"><div class="page-body" id="moreBody"></div></section>
+      <section id="page-about" class="page"><div class="page-body" id="aboutBody"></div></section>
+      <section id="page-recruitment" class="page"><div class="page-body" id="recruitmentBody"></div></section>
+      <section id="page-products" class="page"><div class="page-body" id="productsBody"></div></section>
+      <section id="page-contact" class="page"><div class="page-body" id="contactBody"></div></section>
+      <section id="page-instructions" class="page"><div class="page-body" id="instructionsBody"></div></section>
+    </main>
+
+    <nav id="tabBar" class="tab-bar">
+      <button class="tab-btn" data-tab="home" data-nav="/">
+        <span class="tab-icon tab-icon-home"></span><span class="tab-label">首页</span>
+      </button>
+      <button class="tab-btn" data-tab="shows" data-nav="/shows">
+        <span class="tab-icon tab-icon-shows"></span><span class="tab-label">演出</span>
+      </button>
+      <button class="tab-btn" data-tab="scene" data-nav="/scene">
+        <span class="tab-icon tab-icon-scene"></span><span class="tab-label">场景</span>
+      </button>
+      <button class="tab-btn" data-tab="articles" data-nav="/articles">
+        <span class="tab-icon tab-icon-articles"></span><span class="tab-label">文章</span>
+      </button>
+      <button class="tab-btn" data-tab="more" data-nav="/more">
+        <span class="tab-icon tab-icon-more"></span><span class="tab-label">更多</span>
+      </button>
+    </nav>
+
+    <div id="toast" class="toast" hidden></div>
+  </div>
+
+  <script src="/js/app.js?v=7"></script>
+</body>
+</html>
