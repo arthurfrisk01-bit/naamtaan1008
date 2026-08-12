@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/zakka_cream">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/sceneTabs"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/zakka_cream"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:tabStripEnabled="false"
+        app:tabIndicatorColor="@color/zakka_brown"
+        app:tabSelectedTextColor="@color/zakka_ink"
+        app:tabTextColor="@color/zakka_brown" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ProgressBar
+            android:id="@+id/sceneLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/sceneSwipeRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/sceneRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:padding="12dp" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </FrameLayout>
+
+</LinearLayout>

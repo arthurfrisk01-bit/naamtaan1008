@@ -1,0 +1,55 @@
+package com.naamtaan1008.app
+
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.naamtaan1008.app.ui.HomeFragment
+import com.naamtaan1008.app.ui.SceneFragment
+import com.naamtaan1008.app.ui.ShowsFragment
+
+class MainActivity : AppCompatActivity() {
+
+    private val homeFragment by lazy(LazyThreadSafetyMode.NONE) { HomeFragment() }
+    private val showsFragment by lazy(LazyThreadSafetyMode.NONE) { ShowsFragment() }
+    private val sceneFragment by lazy(LazyThreadSafetyMode.NONE) { SceneFragment() }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .add(R.id.fragmentContainer, homeFragment, TAG_HOME)
+                .commit()
+        }
+
+        findViewById<BottomNavigationView>(R.id.bottomNav).setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> switchTo(TAG_HOME, homeFragment)
+                R.id.nav_shows -> switchTo(TAG_SHOWS, showsFragment)
+                R.id.nav_scene -> switchTo(TAG_SCENE, sceneFragment)
+                else -> false
+            }
+        }
+    }
+
+    private fun switchTo(tag: String, target: Fragment): Boolean {
+        val fm = supportFragmentManager
+        val currentTag = fm.fragments.lastOrNull()?.tag
+        if (currentTag == tag) return true
+        fm.beginTransaction().apply {
+            fm.fragments.forEach { hide(it) }
+            val existing = fm.findFragmentByTag(tag)
+            if (existing == null) add(R.id.fragmentContainer, target, tag)
+            else show(existing)
+        }.commit()
+        return true
+    }
+
+    companion object {
+        private const val TAG_HOME = "home"
+        private const val TAG_SHOWS = "shows"
+        private const val TAG_SCENE = "scene"
+    }
+}

@@ -1,0 +1,13 @@
+# --- Android (native project) ---
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/captures/
+*.keystore
+*.jks
+
+# --- General ---
+.DS_Store
+*.iml
+.idea/

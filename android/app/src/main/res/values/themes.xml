@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Naamtaan1008" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/zakka_brown</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/zakka_cream</item>
+        <item name="colorOnPrimaryContainer">@color/zakka_ink</item>
+        <item name="colorSecondary">@color/zakka_clay</item>
+        <item name="colorSecondaryContainer">@color/zakka_cream</item>
+        <item name="colorOnSecondaryContainer">@color/zakka_ink</item>
+        <item name="android:statusBarColor">@color/zakka_cream</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@color/zakka_cream</item>
+        <item name="android:windowBackground">@color/zakka_cream</item>
+    </style>
+</resources>

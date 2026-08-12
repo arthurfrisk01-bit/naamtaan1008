@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="zakka_cream">#FAF3E0</color>
+    <color name="zakka_ink">#3D3831</color>
+    <color name="zakka_brown">#8A6D4B</color>
+    <color name="zakka_clay">#C77D5E</color>
+    <color name="zakka_mustard">#C9A227</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="item_background">#FFFDF6</color>
+</resources>

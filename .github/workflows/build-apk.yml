@@ -1,4 +1,4 @@
-name: Build TWA APK
+name: Build Native APK
 
 on:
   workflow_dispatch:
@@ -11,63 +11,70 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      BUBBLEWRAP_KEYSTORE_PASSWORD: android
-      BUBBLEWRAP_KEY_PASSWORD: android
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Setup Java (Android SDK)
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
 
-      - name: Pre-configure bubblewrap (skip interactive prompts)
-        run: |
-          mkdir -p ~/.bubblewrap
-          printf '{\n  "jdkPath": "%s",\n  "androidSdkPath": "%s"\n}\n' \
-            "$JAVA_HOME" "${ANDROID_HOME:-/usr/local/lib/android/sdk}" > ~/.bubblewrap/config.json
-          cat ~/.bubblewrap/config.json
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
 
-      - name: Generate keystore
-        working-directory: twa-project
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Cache Gradle + Android
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            ~/.android/build-cache
+          key: gradle-${{ runner.os }}-${{ hashFiles('android/**/*.gradle*', 'android/gradle.lockfile') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+
+      - name: Build debug APK (compile + assemble)
+        working-directory: android
+        run: ./gradlew assembleDebug --no-daemon
+
+      - name: Generate keystore + build signed release APK
+        working-directory: android
+        env:
+          KEYSTORE_FILE: android.keystore
+          KEYSTORE_PASSWORD: android
+          KEYSTORE_ALIAS: naamtaan
+          KEY_PASSWORD: android
         run: |
           keytool -genkeypair -v -keystore android.keystore -storetype PKCS12 \
             -alias naamtaan -keyalg RSA -keysize 2048 -validity 10000 \
             -storepass android -keypass android \
             -dname "CN=naamtaan1008, OU=naamtaan1008, O=naamtaan1008, L=Huizhou, ST=Guangdong, C=CN"
+          ./gradlew assembleRelease --no-daemon
 
-      - name: Ensure Android build-tools (bubblewrap needs 36.1.0 + sdkmanager)
-        run: |
-          # bubblewrap looks for sdkmanager under <sdk>/bin/sdkmanager
-          mkdir -p "$ANDROID_HOME/bin"
-          ln -sf "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "$ANDROID_HOME/bin/sdkmanager"
-          if [ ! -d "$ANDROID_HOME/build-tools/36.1.0" ]; then
-            yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install "build-tools;36.1.0" --sdk_root="$ANDROID_HOME"
-          fi
-          ls "$ANDROID_HOME/build-tools/"
-
-      - name: Bubblewrap build
-        working-directory: twa-project
-        run: npx --yes @bubblewrap/cli build
-
-      - name: Upload APK artifact
+      - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:
-          name: naamtaan1008-apk
-          path: twa-project/app-release-signed.apk
+          name: naamtaan1008-debug
+          path: android/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
 
-      - name: Create Release on tag
+      - name: Upload release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: naamtaan1008-release-unsigned
+          path: android/app/build/outputs/apk/release/*.apk
+          if-no-files-found: error
+
+      - name: Tag release assets
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          files: twa-project/app-release-signed.apk
+          files: |
+            android/app/build/outputs/apk/debug/*.apk
+            android/app/build/outputs/apk/release/*.apk
           name: naamtaan1008 ${{ github.ref_name }}
