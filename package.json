@@ -1,0 +1,16 @@
+{
+  "name": "naamtaan1008-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sw.js",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "gen-icons": "node scripts/gen-icons.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "sharp": "^0.35.3"
+  }
+}

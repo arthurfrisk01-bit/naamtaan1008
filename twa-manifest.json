@@ -1,0 +1,20 @@
+{
+  "packageId": "com.naamtaan1008.client",
+  "host": "app.naamtaan1008.com",
+  "name": "平和日常",
+  "launcherName": "平和日常",
+  "display": "standalone",
+  "themeColor": "#FAF3E0",
+  "navigationColor": "#FAF3E0",
+  "backgroundColor": "#FAF3E0",
+  "enableNotifications": false,
+  "startUrl": "/",
+  "iconUrl": "https://app.naamtaan1008.com/icons/icon-512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./android.keystore",
+    "alias": "naamtaan",
+    "keyPassword": "android",
+    "storePassword": "android"
+  }
+}
