@@ -111,7 +111,7 @@ class HomeFragment : Fragment() {
             setTextColor(resources.getColor(R.color.zakka_ink, null))
             textSize = 20f
             setPadding(0, dp(4), 0, dp(8))
-            text = text
+            this.text = text
         }
     }
 
@@ -119,8 +119,8 @@ class HomeFragment : Fragment() {
         return TextView(requireContext()).apply {
             setTextColor(resources.getColor(R.color.zakka_brown, null))
             textSize = 14f
-            lineSpacingExtra = dp(3).toFloat()
-            text = text
+            setLineSpacing(dp(3).toFloat(), 1.0f)
+            this.text = text
         }
     }
 

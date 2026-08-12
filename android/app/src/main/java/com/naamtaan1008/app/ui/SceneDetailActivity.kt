@@ -123,7 +123,7 @@ class SceneDetailActivity : AppCompatActivity() {
         TextView(this).apply {
             setTextColor(resources.getColor(R.color.zakka_clay, null))
             textSize = 13f
-            textStyle = android.graphics.Typeface.BOLD
+            typeface = android.graphics.Typeface.DEFAULT_BOLD
             setPadding(dp(2), dp(8), dp(2), dp(2))
             this.text = text
         }
@@ -133,7 +133,7 @@ class SceneDetailActivity : AppCompatActivity() {
             setTextColor(resources.getColor(colorId, null))
             textSize = size
             if (bold) typeface = android.graphics.Typeface.DEFAULT_BOLD
-            lineSpacingExtra = dp(3).toFloat()
+            setLineSpacing(dp(3).toFloat(), 1.0f)
             setPadding(dp(2), 0, dp(2), dp(4))
             this.text = text
         }
