@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.naamtaan1008.app.ui.AboutFragment
+import com.naamtaan1008.app.ui.ArticlesFragment
 import com.naamtaan1008.app.ui.HomeFragment
 import com.naamtaan1008.app.ui.SceneFragment
 import com.naamtaan1008.app.ui.ShowsFragment
@@ -12,7 +14,9 @@ class MainActivity : AppCompatActivity() {
 
     private val homeFragment by lazy(LazyThreadSafetyMode.NONE) { HomeFragment() }
     private val showsFragment by lazy(LazyThreadSafetyMode.NONE) { ShowsFragment() }
+    private val articlesFragment by lazy(LazyThreadSafetyMode.NONE) { ArticlesFragment() }
     private val sceneFragment by lazy(LazyThreadSafetyMode.NONE) { SceneFragment() }
+    private val aboutFragment by lazy(LazyThreadSafetyMode.NONE) { AboutFragment() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +32,9 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.nav_home -> switchTo(TAG_HOME, homeFragment)
                 R.id.nav_shows -> switchTo(TAG_SHOWS, showsFragment)
+                R.id.nav_articles -> switchTo(TAG_ARTICLES, articlesFragment)
                 R.id.nav_scene -> switchTo(TAG_SCENE, sceneFragment)
+                R.id.nav_about -> switchTo(TAG_ABOUT, aboutFragment)
                 else -> false
             }
         }
@@ -50,6 +56,8 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val TAG_HOME = "home"
         private const val TAG_SHOWS = "shows"
+        private const val TAG_ARTICLES = "articles"
         private const val TAG_SCENE = "scene"
+        private const val TAG_ABOUT = "about"
     }
 }

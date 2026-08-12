@@ -9,7 +9,15 @@
         android:icon="@drawable/ic_shows"
         android:title="@string/tab_shows" />
     <item
+        android:id="@+id/nav_articles"
+        android:icon="@drawable/ic_article"
+        android:title="@string/tab_articles" />
+    <item
         android:id="@+id/nav_scene"
         android:icon="@drawable/ic_scene"
         android:title="@string/tab_scene" />
+    <item
+        android:id="@+id/nav_about"
+        android:icon="@drawable/ic_info"
+        android:title="@string/tab_about" />
 </menu>

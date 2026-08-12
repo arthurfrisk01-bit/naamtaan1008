@@ -21,6 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.ArticleDetailActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Naamtaan1008"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>

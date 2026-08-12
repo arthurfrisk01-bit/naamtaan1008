@@ -1,13 +1,24 @@
 package com.naamtaan1008.app.data
 
+import com.naamtaan1008.app.data.model.AboutResponse
+import com.naamtaan1008.app.data.model.ArticleDetail
+import com.naamtaan1008.app.data.model.ArticleDetailResponse
+import com.naamtaan1008.app.data.model.ArticleListResponse
+import com.naamtaan1008.app.data.model.ArticleSummary
+import com.naamtaan1008.app.data.model.ContactResult
 import com.naamtaan1008.app.data.model.SceneResponse
 import com.naamtaan1008.app.data.model.Show
 import com.naamtaan1008.app.data.model.ShowsResponse
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.put
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 
 /**
  * Repository for the naamtaan1008 public API.
@@ -77,5 +88,50 @@ object Repository {
         "studios" -> "工作室"
         "homestays" -> "民宿"
         else -> type
+    }
+
+    /** Paged article list. */
+    suspend fun fetchArticles(page: Int = 1, pageSize: Int = 20): List<ArticleSummary> {
+        val body = getString("articles?page=$page&pageSize=$pageSize")
+        return try {
+            json.decodeFromString<ArticleListResponse>(body).articles
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
+    /** Single article body (HTML content). */
+    suspend fun fetchArticle(id: String): ArticleDetail {
+        val body = getString("article/$id")
+        return json.decodeFromString<ArticleDetailResponse>(body).article
+    }
+
+    /** About page content (HTML). */
+    suspend fun fetchAbout(): AboutResponse {
+        val body = getString("about")
+        return json.decodeFromString<AboutResponse>(body)
+    }
+
+    /** Submit the contact form (name/email/message). */
+    suspend fun submitContact(name: String, email: String, message: String): ContactResult {
+        val payload: JsonObject = buildJsonObject {
+            put("name", name)
+            put("email", email)
+            put("message", message)
+            put("type", "general")
+            put("category", "")
+        }
+        val request = Request.Builder()
+            .url(ApiClient.url("contact/submit"))
+            .post(payload.toString().toRequestBody("application/json".toMediaType()))
+            .build()
+        ApiClient.client.newCall(request).execute().use { resp ->
+            val body = resp.body?.string().orEmpty()
+            return try {
+                json.decodeFromString<ContactResult>(body)
+            } catch (e: Exception) {
+                ContactResult(success = false, error = "HTTP ${resp.code}")
+            }
+        }
     }
 }
