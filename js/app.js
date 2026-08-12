@@ -64,10 +64,8 @@
     current: 'home'
   };
 
-  // Local dev hits production API cross-origin (CORS is enabled); deployed app is same-origin.
-  const API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
-    ? 'https://naamtaan1008.com/api'
-    : '/api';
+  // APP lives on app.naamtaan1008.com; the API lives on naamtaan1008.com (CORS is enabled).
+  const API = 'https://naamtaan1008.com/api';
 
   // ═══════════ scene constants ═══════════
   const SCENE_TYPES = [
