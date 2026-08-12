@@ -27,6 +27,18 @@
             android:exported="false"
             android:theme="@style/Theme.Naamtaan1008"
             android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".ui.SceneDetailActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Naamtaan1008"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".ui.ShowDetailActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Naamtaan1008"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>
