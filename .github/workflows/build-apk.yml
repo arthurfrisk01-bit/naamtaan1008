@@ -41,6 +41,16 @@ jobs:
             -storepass android -keypass android \
             -dname "CN=naamtaan1008, OU=naamtaan1008, O=naamtaan1008, L=Huizhou, ST=Guangdong, C=CN"
 
+      - name: Ensure Android build-tools (bubblewrap needs 36.1.0 + sdkmanager)
+        run: |
+          # bubblewrap looks for sdkmanager under <sdk>/bin/sdkmanager
+          mkdir -p "$ANDROID_HOME/bin"
+          ln -sf "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "$ANDROID_HOME/bin/sdkmanager"
+          if [ ! -d "$ANDROID_HOME/build-tools/36.1.0" ]; then
+            yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install "build-tools;36.1.0" --sdk_root="$ANDROID_HOME"
+          fi
+          ls "$ANDROID_HOME/build-tools/"
+
       - name: Bubblewrap build
         working-directory: twa-project
         run: npx --yes @bubblewrap/cli build
